@@ -1,0 +1,14 @@
+stages:
+ - deploy
+
+deploy:
+  image: hashicorp/terraform:light
+  stage: deploy
+  script:
+   - apk add curl
+   - curl https://registry.terraform.io/.well-known/terraform.json
+   - terraform init -backend-config=backend.hcl
+   - terraform apply --auto-approve
+
+  only:
+   - develop
