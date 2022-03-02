@@ -1,15 +1,15 @@
 # ECR Repository
-resource "aws_ecr_repository" "main" {
+resource "aws_ecr_repository" "this" {
   name                 = "${var.ecr_repository}"
-  image_tag_mutability = "${var.tag_mutability}" # MUTABLE ou IMMUTABLE
+  image_tag_mutability = "${var.tag_mutability}"
   image_scanning_configuration {
     scan_on_push = false
   }
 }
 
 # ECR Repository Policy
-resource "aws_ecr_repository_policy" "main" {
-  repository = aws_ecr_repository.main.name
+resource "aws_ecr_repository_policy" "this" {
+  repository = aws_ecr_repository.this.name
   policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -40,8 +40,8 @@ EOF
 
 # ECR Lifecycle Policy
 # Remove images without tags after 14 days
-resource "aws_ecr_lifecycle_policy" "main" {
-  repository = aws_ecr_repository.main.name
+resource "aws_ecr_lifecycle_policy" "this" {
+  repository = aws_ecr_repository.this.name
 
   policy = <<EOF
 {

@@ -1,0 +1,31 @@
+[
+  {
+    "name": "${container_name}",
+    "image": "${image}:${version}",
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+          "awslogs-group": "${cloudwatch_log_group_name}",
+          "awslogs-region": "${aws_region}",
+          "awslogs-stream-prefix": "ecs"
+      }
+    },
+    "portMappings": [
+      {
+        "hostPort": ${container_port},
+        "protocol": "tcp",
+        "containerPort": ${container_port}
+      }
+    ],
+    "cpu": ${cpu},
+    "memoryReservation": ${memory},
+    "secrets": [
+      {
+        "name": "MY_SECRET",
+        "valueFrom": "/${var.service_name}/MY_SECRET"
+      }
+    ],
+    "volumesFrom": [],
+    "essential": true
+  }
+]
